@@ -3,37 +3,6 @@
 Judge-Dist should serve the purpose of sending judge tasks across actual judge machines. However,
 currently I don't have enough time so Judge-dist will also judge the cases.
 
-## Problem Format
-
-```json
-{
-    "_id": "xxxxxxxxxxxxxx", // automatically generated
-    "title": "NAOSI welcomes you!", // actual title of problem
-    "timeLimit": "1800",  // second?
-    "score": "20", 
-    "tags": [
-        "初尝算法"
-    ], 
-    "type": "algorithm",
-    "data": {
-        "content": {
-            "body" : "输出 \"NAOSI welcomes you!\"（包括双引号）。",  // markdown should be supported
-            "inputformat" : "⽆",
-            "outputformat" : "⼀⾏。为题⽬所要求的字符串。",
-            "sampleinput" : "",
-            "sampleoutput" : "\"NAOSI welcomes you!\""
-        }, 
-        "restrictions": {
-            "time" : 1000, // ms
-            "mem" : 256000, // kb
-        }, 
-        "testcases" : [
-            {"", "A/1.out"}
-        ]
-    }
-}
-```
-
 ## Endpoints
 
 ### POST /api/submit
