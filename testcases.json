@@ -1,0 +1,8 @@
+[
+    {
+        "_id" : "xxxxxxxxxxxxxx",
+        "testcases" : [
+            {"num" : 1, "input" : null, "output" : "testdata/A/1.out"}
+        ]
+    }
+]

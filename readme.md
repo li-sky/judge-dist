@@ -5,7 +5,7 @@ currently I don't have enough time so Judge-dist will also judge the cases.
 
 ## Endpoints
 
-### POST /api/submit
+### POST /api/v1/submit
 
 Request content:
 
@@ -24,7 +24,7 @@ Response content:
 }
 ```
 
-### GET /api/query?token=xxxxxxxxxxxxxxxxxxx
+### GET /api/v1/query?token=xxxxxxxxxxxxxxxxxxx
 
 Response content:
 
@@ -32,7 +32,7 @@ Response content:
 {
     "token" : "xxxxxxxxxxxxxxxxx", // uuid string,
     "testcases" : [
-        {"num": 1, "status" : 0} // status: 0 - pending, 1 - accepted, 2 - compile error, 3 - compile timed out, 4 - runtime error, 5 - time limit exceeded, 6 - memory limit exceeded, 7 - output limit exceeded, 8 - wrong answer, 9 - other errors
+        {"num": 1, "status" : 0} // status: 0 - pending for compiling, 1 - accepted, 2 - compile error, 3 - compile timed out, 4 - runtime error, 5 - time limit exceeded, 6 - memory limit exceeded, 7 - output limit exceeded, 8 - wrong answer, 9 - other errors, 10 - compiling, 11 - running, 12 - pending for running
     ]
 }
 ```
