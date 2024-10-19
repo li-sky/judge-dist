@@ -30,3 +30,5 @@ compile/
 judge/
 submissions/
 testdata/
+
+testcases.json

@@ -87,13 +87,15 @@ func judge(num int) {
 		if err != nil {
 			if exitErr, ok := err.(*exec.ExitError); ok {
 				log.Printf("Command exited with non-zero status: %v\n", exitErr.ExitCode())
+				log.Printf("Command output: %s\n", string(output))
 				if exitErr.ExitCode() == 124 {
 					// time limit exceeded
 					db.Exec("UPDATE evaluation_records SET test_case_status = 5 WHERE id = $1", task.ID)
+					continue
 				} else {
 					db.Exec("UPDATE evaluation_records SET test_case_status = 4 WHERE id = $1", task.ID)
+					continue
 				}
-				log.Printf("Command output: %s\n", string(output))
 			} else {
 				log.Printf("Failed to run command: %v\n", err)
 				db.Exec("UPDATE evaluation_records SET test_case_status = 9 WHERE id = $1", task.ID)
@@ -138,7 +140,7 @@ func comp(num int) {
 	for {
 		// fetch a task from the channel
 		task := <-chcomp
-		log.Printf("Compiling task %+v\n", task.Token)
+		log.Printf("Compiling task %+v, Runner ID %d\n", task.Token, num)
 		// update database
 		db.Exec("UPDATE evaluation_records SET test_case_status = 10 WHERE id = $1", task.ID)
 		// compile the code
@@ -175,6 +177,7 @@ func comp(num int) {
 		} else {
 			// compilation successful
 			// move executable from compile/num to compile/{token}.out with mv command
+			log.Println("compile success")
 			cmd := exec.Command("mv", fmt.Sprintf("compile/%d/a.out", num), fmt.Sprintf("compile/%s.out", task.Token))
 			err := cmd.Run()
 			if err != nil {
@@ -365,5 +368,5 @@ func main() {
 		c.JSON(http.StatusOK, response)
 	})
 
-	r.Run(":5050") // Run on port 8080
+	r.Run(":50350") // Run on port 8080
 }
