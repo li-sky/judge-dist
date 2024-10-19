@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"database/sql"
 	"encoding/base64"
 	"encoding/json"
@@ -99,9 +100,9 @@ func judge(num int) {
 			}
 		}
 		// compare output
-		cmd = exec.Command("checker/noip-checker", task.TestCase.Input, task.TestCase.Output, fmt.Sprintf("judge/%d/output.txt", num))
-		err = cmd.Run()
-		if err != nil {
+		cmd = exec.Command("checker/noip-checker", fmt.Sprintf("judge/%d/input.txt", num), task.TestCase.Output, fmt.Sprintf("judge/%d/output.txt", num))
+		output, err = cmd.CombinedOutput()
+		if !bytes.Equal(output, []byte("ok accepted")) || (err != nil) {
 			// wrong answer
 			db.Exec("UPDATE evaluation_records SET test_case_status = 8 WHERE id = $1", task.ID)
 		} else {
