@@ -244,12 +244,20 @@ func main() {
 	cheval = make(chan EvaluateTask, 100)
 
 	// start judge workers
+	runnerCount, err := strconv.Atoi(os.Getenv("RUNNER_COUNT"))
+	if err != nil {
+		log.Fatalf("Failed to parse RUNNER_COUNT: %v\n", err)
+	}
 
-	for i := 0; i < 8; i++ {
+	compilerCount, err := strconv.Atoi(os.Getenv("COMPILER_COUNT"))
+	if err != nil {
+		log.Fatalf("Failed to parse COMPILER_COUNT: %v\n", err)
+	}
+	for i := 0; i < runnerCount; i++ {
 		go judge(i)
 	}
 
-	for i := 0; i < 8; i++ {
+	for i := 0; i < compilerCount; i++ {
 		go comp(i)
 	}
 
